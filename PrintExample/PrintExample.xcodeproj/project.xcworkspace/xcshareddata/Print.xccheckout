@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>25C9B8D5-E9E5-4BDE-8310-E41B4B0F4DF2</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Print</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>65BBFDA5-4F5D-4378-8D52-B044609E4F6D</key>
+		<string>https://bitbucket.org/kvarkson/phonegap-ios-printing-plugin.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>PrintExample/Print.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>65BBFDA5-4F5D-4378-8D52-B044609E4F6D</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/kvarkson/phonegap-ios-printing-plugin.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>65BBFDA5-4F5D-4378-8D52-B044609E4F6D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>65BBFDA5-4F5D-4378-8D52-B044609E4F6D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>phonegap-ios-printing-plugin</string>
+		</dict>
+	</array>
+</dict>
+</plist>
