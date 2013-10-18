@@ -13,11 +13,13 @@
 #import <Cordova/CDVPlugin.h>
 
 
-@interface Print : CDVPlugin
+@interface Print : CDVPlugin <UIPrintInteractionControllerDelegate>
     
 @property (nonatomic, strong) NSString* successCallback;
 @property (nonatomic, strong) NSString* failCallback;
 @property (nonatomic, strong) NSString* printHTML;
+@property (nonatomic) BOOL isPdf;
+@property (nonatomic, strong) NSString* filePath;
 
 //Print Settings
 @property NSInteger dialogLeftPos;
