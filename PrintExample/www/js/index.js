@@ -32,7 +32,7 @@ var app = {
 
     print: function() {
         var html = document.getElementById('printHTML').innerHTML;
-        Print.print( html, function(result) {
+        Print.print( html, true, '', function(result) {
             alert("Printing successful"); }, function(result) {
                 console.log(result.available);
                 if (!result.available) { 

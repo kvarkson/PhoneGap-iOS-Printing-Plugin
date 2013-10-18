@@ -11,7 +11,7 @@
 
 @implementation Print
 
-@synthesize successCallback, failCallback, printHTML, dialogTopPos, dialogLeftPos;
+@synthesize successCallback, failCallback, printHTML, dialogTopPos, dialogLeftPos, isPdf, filePath;
 
 /*
  Is printing available. Callback returns true/false if printing is available/unavailable.
@@ -31,6 +31,12 @@
 }
 
 - (void)printWithArgs:(NSDictionary*)arguments {
+    self.isPdf = [[arguments objectForKey:@"isPdf"] boolValue];
+    self.filePath = [arguments objectForKey:@"filePath"];
+    if (self.isPdf) {
+        [self tryPrintPdf: filePath];
+        return;
+    }
     self.printHTML = [arguments objectForKey:@"printHTML"];
     self.dialogLeftPos = [[arguments objectForKey:@"dialogLeftPos"] integerValue];
     self.dialogTopPos = [[arguments objectForKey:@"dialogTopPos"] integerValue];
@@ -105,6 +111,36 @@
     
     
     return NO;
+}
+
+- (void) tryPrintPdf:(NSString*)path
+{
+    NSData *myData = [NSData dataWithContentsOfFile:path];
+    
+    UIPrintInteractionController *pic = [UIPrintInteractionController sharedPrintController];
+    
+    if ( pic && [UIPrintInteractionController canPrintData: myData] ) {
+        pic.delegate = self;
+        
+        UIPrintInfo *printInfo = [UIPrintInfo printInfo];
+        printInfo.outputType = UIPrintInfoOutputGeneral;
+        printInfo.jobName = [path lastPathComponent];
+        printInfo.duplex = UIPrintInfoDuplexLongEdge;
+        pic.printInfo = printInfo;
+        pic.showsPageRange = YES;
+        pic.printingItem = myData;
+        
+        void (^completionHandler)(UIPrintInteractionController *, BOOL, NSError *) = ^(UIPrintInteractionController *pic, BOOL completed, NSError *error) {
+            if (!completed && error) {
+                NSLog(@"FAILED! due to error in domain %@ with error code %u", error.domain, error.code);
+            }
+        };
+        
+        [pic presentAnimated:YES completionHandler:completionHandler];
+    } else {
+        UIAlertView *mailNotConfiguredAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please specify the pdf file's path" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [mailNotConfiguredAlert show];
+    }
 }
 
 #pragma mark -

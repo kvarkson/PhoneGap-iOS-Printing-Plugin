@@ -15,7 +15,7 @@ var Print =  {
      fail       - callback function called if print unsuccessful.  If print fails, {error: reason}. If printing not available: {available: false}
      options    -  {dialogOffset:{left: 0, right: 0}}. Position of popup dialog (iPad only).
      */
-    print: function(printHTML, success, fail, options) 
+    print: function(printHTML, isPdf, filePath, success, fail, options) 
     {
         if (typeof printHTML != 'string'){
             console.log("Print function requires an HTML string. Not an object");
@@ -43,6 +43,8 @@ var Print =  {
         }
 
         args = {}
+        args.isPdf = isPdf;
+        args.filePath = filePath;
         args.printHTML = printHTML;
         args.dialogLeftPos = dialogLeftPos;
         args.dialogTopPos = dialogTopPos;
