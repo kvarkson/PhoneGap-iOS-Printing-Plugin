@@ -19,6 +19,14 @@ Then add the following code to your config.xml:
 	</feature>
 
 #Using the plugin
+Signature:
+
+    Print.print(html, isPdf, filePath, successCallback, failCallback)
+
+- Html can be null or docuemnt to print
+- isPdf false by default. Need to set true if you want to print a pdf
+- filePath - string url to a pdf file
+
 For adding new html conten that needs to be printed do the following:
 
 	var html = <h1>Your html content</h1>;
