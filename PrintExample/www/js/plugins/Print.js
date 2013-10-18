@@ -53,13 +53,9 @@ var Print =  {
      * Callback function returns {available: true/false}
      */
     isPrintingAvailable: function(callback) {
-        var key = 'isPrintingAvailable' + this.callbackIdx++;
-        Print.callbackMap[key] = function(result) {
-            delete Print.callbackMap[key];
-            callback(result);
-        };
+        this._callback = callback;
+        cordova.exec(null, null, "Print", "isPrintingAvailable", []);
+    },
 
-        var callbackName = 'Print.callbackMap.' + key;
-        cordova.exec("Print.isPrintingAvailable", callbackName);
-    }
+    _callback: null
 }

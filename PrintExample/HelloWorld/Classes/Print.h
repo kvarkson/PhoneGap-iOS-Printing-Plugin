@@ -28,6 +28,7 @@
 - (void)printWithArgs:(NSDictionary*)arguments;
 
 //Find out whether printing is supported on this platform.
-- (void) isPrintingAvailable:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) isPrintingAvailable:(CDVInvokedUrlCommand *)command;
+-(void) callbackWithFuntion:(NSString *)function withData:(NSString *)value;
 
 @end

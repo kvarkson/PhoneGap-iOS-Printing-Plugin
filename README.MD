@@ -32,6 +32,14 @@ For adding new html conten that needs to be printed do the following:
             }
     });
 
+Before printing you might want to check the feature's availability:
+
+    Print.isPrintingAvailable( function(result) {
+        alert(result.available);
+    });
+
+isPrintingAvailable method will return object "{ available: true }" if the printing is working on the device. In other case it will return false;
+
 #License
 
 The MIT License

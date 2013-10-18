@@ -16,17 +16,8 @@
 /*
  Is printing available. Callback returns true/false if printing is available/unavailable.
  */
-- (void) isPrintingAvailable:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options{
-    NSUInteger argc = [arguments count];
-    
-    if (argc < 1) {
-        return;
-    }
-    
-    
-    NSString *callBackFunction = [arguments objectAtIndex:0];
-    [self callbackWithFuntion:callBackFunction withData:
-     [NSString stringWithFormat:@"{available: %@}", ([self isPrintServiceAvailable] ? @"true" : @"false")]];
+- (void) isPrintingAvailable:(CDVInvokedUrlCommand *)command {
+    [self callbackWithFuntion:@"Print._callback" withData:[NSString stringWithFormat:@"{available: %@}", ([self isPrintServiceAvailable] ? @"true" : @"false")]];
     
 }
     
@@ -40,29 +31,9 @@
 }
 
 - (void)printWithArgs:(NSDictionary*)arguments {
-//    NSUInteger *argc = [arguments count];
-    
-//    if (argc < 1) {
-//        return;
-//    }
     self.printHTML = [arguments objectForKey:@"printHTML"];
-    
-//    if (argc >= 2){
-//        self.successCallback = [arguments objectAtIndex:1];
-//    }
-//    
-//    if (argc >= 3){
-//        self.failCallback = [arguments objectAtIndex:2];
-//    }
-    
-//    if (argc >= 4){
-        self.dialogLeftPos = [[arguments objectForKey:@"dialogLeftPos"] integerValue];
-//    }
-    
-//    if (argc >= 5){
-        self.dialogTopPos = [[arguments objectForKey:@"dialogTopPos"] integerValue];
-//    }
-    
+    self.dialogLeftPos = [[arguments objectForKey:@"dialogLeftPos"] integerValue];
+    self.dialogTopPos = [[arguments objectForKey:@"dialogTopPos"] integerValue];
     [self doPrint];
     
 }
@@ -124,7 +95,7 @@
     }
 }
 
--(BOOL) isPrintServiceAvailable{
+-(BOOL) isPrintServiceAvailable {
     
     Class myClass = NSClassFromString(@"UIPrintInteractionController");
     if (myClass) {
@@ -139,7 +110,7 @@
 #pragma mark -
 #pragma mark Return messages
 
--(void) callbackWithFuntion:(NSString *)function withData:(NSString *)value{
+-(void) callbackWithFuntion:(NSString *)function withData:(NSString *)value {
     if (!function || [@"" isEqualToString:function]){
         return;
     }

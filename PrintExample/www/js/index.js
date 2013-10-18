@@ -31,9 +31,10 @@ var app = {
     },
 
     print: function() {
-        var html = document.getElementById('printHTML').innerHTML;//'<h1>Example</h2><p>Ptinting example</p>';
+        var html = document.getElementById('printHTML').innerHTML;
         Print.print( html, function(result) {
             alert("Printing successful"); }, function(result) {
+                console.log(result.available);
                 if (!result.available) { 
                     alert("Printing is not available");
                 } else {
