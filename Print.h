@@ -8,29 +8,26 @@
 //
 
 #import <Foundation/Foundation.h>
-
-
 #import <Cordova/CDVPlugin.h>
-
 
 @interface Print : CDVPlugin <UIPrintInteractionControllerDelegate>
     
-@property (nonatomic, strong) NSString* successCallback;
-@property (nonatomic, strong) NSString* failCallback;
-@property (nonatomic, strong) NSString* printHTML;
+@property (nonatomic, strong) NSString *successCallback;
+@property (nonatomic, strong) NSString *failCallback;
+@property (nonatomic, strong) NSString *printHTML;
+@property (nonatomic, strong) NSString *filePath;
 @property (nonatomic) BOOL isPdf;
-@property (nonatomic, strong) NSString* filePath;
 
 //Print Settings
-@property NSInteger dialogLeftPos;
-@property NSInteger dialogTopPos;
+@property (nonatomic) NSInteger dialogLeftPos;
+@property (nonatomic) NSInteger dialogTopPos;
 
 //Print HTML
 - (void)print:(CDVInvokedUrlCommand *)command;
-- (void)printWithArgs:(NSDictionary*)arguments;
+- (void)printWithArgs:(NSDictionary *)arguments;
 
 //Find out whether printing is supported on this platform.
-- (void) isPrintingAvailable:(CDVInvokedUrlCommand *)command;
--(void) callbackWithFuntion:(NSString *)function withData:(NSString *)value;
+- (void)isPrintingAvailable:(CDVInvokedUrlCommand *)command;
+- (void)callbackWithFuntion:(NSString *)function withData:(NSString *)value;
 
 @end
