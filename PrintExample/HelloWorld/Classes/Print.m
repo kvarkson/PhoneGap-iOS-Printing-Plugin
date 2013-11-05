@@ -16,54 +16,52 @@
 /*
  Is printing available. Callback returns true/false if printing is available/unavailable.
  */
-- (void) isPrintingAvailable:(CDVInvokedUrlCommand *)command {
+- (void)isPrintingAvailable:(CDVInvokedUrlCommand *)command {
     [self callbackWithFuntion:@"Print._callback" withData:[NSString stringWithFormat:@"{available: %@}", ([self isPrintServiceAvailable] ? @"true" : @"false")]];
-    
 }
     
 - (void)print:(CDVInvokedUrlCommand *)command {
     if ([command.arguments count]) {
         NSDictionary *parameters = command.arguments[0];
         [self printWithArgs:parameters];
-    } else {
+    }
+    else {
         NSLog(@"warning: missed arguments");
     }
 }
 
-- (void)printWithArgs:(NSDictionary*)arguments {
+- (void)printWithArgs:(NSDictionary *)arguments {
     self.isPdf = [[arguments objectForKey:@"isPdf"] boolValue];
     self.filePath = [arguments objectForKey:@"filePath"];
     if (self.isPdf) {
-        [self tryPrintPdf: filePath];
+        [self tryPrintPdf:filePath];
         return;
     }
-    self.printHTML = [arguments objectForKey:@"printHTML"];
-    self.dialogLeftPos = [[arguments objectForKey:@"dialogLeftPos"] integerValue];
-    self.dialogTopPos = [[arguments objectForKey:@"dialogTopPos"] integerValue];
-    [self doPrint];
-    
+    self.printHTML = arguments[@"printHTML"];
+    self.dialogLeftPos = [arguments[@"dialogLeftPos"] integerValue];
+    self.dialogTopPos = [arguments[@"dialogTopPos"] integerValue];
+    [self doPrint];    
 }
 
-- (void) doPrint{
-    if (![self isPrintServiceAvailable]){
-        [self callbackWithFuntion:self.failCallback withData: @"{success: false, available: false}"];
-        
+- (void)doPrint{
+    if (![self isPrintServiceAvailable]) {
+        [self callbackWithFuntion:self.failCallback withData:@"{success: false, available: false}"];
         return;
     }
     
     UIPrintInteractionController *controller = [UIPrintInteractionController sharedPrintController];
     
-    if (!controller){
+    if (!controller) {
+        NSLog(@"unable to print: print interaction controller is 'nil'");
         return;
     }
     
-    if ([UIPrintInteractionController isPrintingAvailable]){
+    if ([UIPrintInteractionController isPrintingAvailable]) {
         //Set the priner settings
         UIPrintInfo *printInfo = [UIPrintInfo printInfo];
         printInfo.outputType = UIPrintInfoOutputGeneral;
         controller.printInfo = printInfo;
         controller.showsPageRange = YES;
-        
         
         //Set the base URL to be the www directory.
         NSString *dbFilePath = [[NSBundle mainBundle] pathForResource:@"www" ofType:nil ];
@@ -78,13 +76,13 @@
         controller.printFormatter = viewFormatter;
         controller.showsPageRange = YES;
         
-        
         void (^completionHandler)(UIPrintInteractionController *, BOOL, NSError *) =
         ^(UIPrintInteractionController *printController, BOOL completed, NSError *error) {
             if (!completed || error) {
                 [self callbackWithFuntion:self.failCallback withData:
                  [NSString stringWithFormat:@"{success: false, available: true, error: \"%@\"}", error.localizedDescription]];
-            } else {
+            }
+            else {
                 [self callbackWithFuntion:self.successCallback withData: @"{success: true, available: true}"];
             }
         };
@@ -95,13 +93,14 @@
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad &&
             dialogTopPos != 0 && dialogLeftPos != 0) {
             [controller presentFromRect:CGRectMake(self.dialogLeftPos, self.dialogTopPos, 0, 0) inView:self.webView animated:YES completionHandler:completionHandler];
-        } else {
+        }
+        else {
             [controller presentAnimated:YES completionHandler:completionHandler];
         }
     }
 }
 
--(BOOL) isPrintServiceAvailable {
+- (BOOL)isPrintServiceAvailable {
     
     Class myClass = NSClassFromString(@"UIPrintInteractionController");
     if (myClass) {
@@ -109,19 +108,18 @@
         return (controller != nil) && [UIPrintInteractionController isPrintingAvailable];
     }
     
-    
     return NO;
 }
 
-- (void) tryPrintPdf:(NSString*)path
+- (void)tryPrintPdf:(NSString *)path
 {
     NSData *myData = [NSData dataWithContentsOfFile:path];
-    
+
     UIPrintInteractionController *pic = [UIPrintInteractionController sharedPrintController];
     
-    if ( pic && [UIPrintInteractionController canPrintData: myData] ) {
+    if (pic && [UIPrintInteractionController canPrintData:myData]) {
         pic.delegate = self;
-        
+
         UIPrintInfo *printInfo = [UIPrintInfo printInfo];
         printInfo.outputType = UIPrintInfoOutputGeneral;
         printInfo.jobName = [path lastPathComponent];
@@ -137,7 +135,8 @@
         };
         
         [pic presentAnimated:YES completionHandler:completionHandler];
-    } else {
+    }
+    else {
         UIAlertView *mailNotConfiguredAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please specify the pdf file's path" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [mailNotConfiguredAlert show];
     }
@@ -146,13 +145,13 @@
 #pragma mark -
 #pragma mark Return messages
 
--(void) callbackWithFuntion:(NSString *)function withData:(NSString *)value {
+- (void)callbackWithFuntion:(NSString *)function withData:(NSString *)value {
     if (!function || [@"" isEqualToString:function]){
         return;
     }
     
-    NSString* jsCallBack = [NSString stringWithFormat:@"%@(%@);", function, value];
-    [self writeJavascript: jsCallBack];
+    NSString *jsCallBack = [NSString stringWithFormat:@"%@(%@);", function, value];
+    [self writeJavascript:jsCallBack];
 }
 
 @end

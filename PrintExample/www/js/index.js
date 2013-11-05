@@ -31,8 +31,10 @@ var app = {
     },
 
     print: function() {
+        Print.isPrintingAvailable(function(result) { alert(result.available) });
+
         var html = document.getElementById('printHTML').innerHTML;
-        Print.print( html, true, '', function(result) {
+        Print.print( html, false, '', function(result) {
             alert("Printing successful"); }, function(result) {
                 console.log(result.available);
                 if (!result.available) { 
