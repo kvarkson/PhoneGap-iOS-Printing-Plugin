@@ -1,7 +1,7 @@
 PhoneGap-iOS-Printing-Plugin
 ================================================
 
-PhoneGap iOS plugin for printing via Air Print. Remake of (this)[https://github.com/phonegap/phonegap-plugins/tree/master/iOS/PrintPlugin] plugin (I think the repo is dead now). Anyway the plugin works with PhoneGap 3.0+ and ARC.
+PhoneGap iOS plugin for printing via Air Print. Remake of (this)[https://github.com/phonegap/phonegap-plugins/tree/master/iOS/PrintPlugin] plugin (I think the repo is dead now). The plugin works with PhoneGap 3.0+ and ARC.
 
 #Installing the plugin
 
